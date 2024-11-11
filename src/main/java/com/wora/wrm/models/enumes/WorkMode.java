@@ -1,5 +1,5 @@
 package com.wora.wrm.models.enumes;
 
 public enum WorkMode {
-    AFTERNOON, MORNING, EVENING
+    AFTERNOON, MORNING, ALL_DAY
 }

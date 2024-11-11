@@ -14,3 +14,4 @@ spring:
 
 waiting-room:
   default-algorithm-type: FIFO
+  default-work-mode: MORNING
