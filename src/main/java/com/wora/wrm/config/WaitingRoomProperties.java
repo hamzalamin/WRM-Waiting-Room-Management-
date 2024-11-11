@@ -14,4 +14,5 @@ import org.springframework.context.annotation.Configuration;
 public class WaitingRoomProperties {
     private AlgorithmType defaultAlgorithmType = AlgorithmType.FIFO;
     private WorkMode defaultWorkMode = WorkMode.MORNING;
+    private Integer defaultCapacity = 15;
 }
