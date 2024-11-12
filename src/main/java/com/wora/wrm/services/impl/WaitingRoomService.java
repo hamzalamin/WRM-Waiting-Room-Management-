@@ -1,5 +1,6 @@
 package com.wora.wrm.services.impl;
 
+import com.wora.wrm.exceptions.EntityNotFoundException;
 import com.wora.wrm.mappers.WaitingRoomMapper;
 import com.wora.wrm.models.dtos.WaitingRoomDtos.CreateWaitingRoomDto;
 import com.wora.wrm.models.dtos.WaitingRoomDtos.UpdateWaitingRoomDto;
@@ -27,7 +28,9 @@ public class WaitingRoomService implements IWaitingRoomService {
 
     @Override
     public WaitingRoomDto findById(Long id) {
-        return null;
+        WaitingRoom waitingRoom = waitingRoomRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Waiting Room", id));
+        return waitingRoomMapper.toDto(waitingRoom);
     }
 
     @Override
