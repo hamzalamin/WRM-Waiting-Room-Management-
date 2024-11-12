@@ -48,7 +48,9 @@ public class WaitingRoomService implements IWaitingRoomService {
 
     @Override
     public List<WaitingRoomDto> findAll() {
-        return List.of();
+        return waitingRoomRepository.findAll().stream()
+                .map(waitingRoomMapper::toDto)
+                .toList();
     }
 
     @Override
