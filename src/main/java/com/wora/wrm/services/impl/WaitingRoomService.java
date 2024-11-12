@@ -34,8 +34,16 @@ public class WaitingRoomService implements IWaitingRoomService {
     }
 
     @Override
-    public WaitingRoomDto update(UpdateWaitingRoomDto updateWaitingRoomDto) {
-        return null;
+    public WaitingRoomDto update(UpdateWaitingRoomDto updateWaitingRoomDto, Long id) {
+        WaitingRoom waitingRoomById = waitingRoomRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Waiting Room", id));
+
+        WaitingRoom waitingRoom = waitingRoomMapper.toEntity(updateWaitingRoomDto);
+        waitingRoom.setDate(updateWaitingRoomDto.date());
+        waitingRoom.setCapacity(updateWaitingRoomDto.capacity());
+        waitingRoom.setAlgorithmType(updateWaitingRoomDto.algorithmType());
+        WaitingRoom updatedWaitingRoom = waitingRoomRepository.save(waitingRoom);
+        return waitingRoomMapper.toDto(updatedWaitingRoom);
     }
 
     @Override
