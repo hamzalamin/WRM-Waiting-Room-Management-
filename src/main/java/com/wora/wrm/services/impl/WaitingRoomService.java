@@ -35,10 +35,8 @@ public class WaitingRoomService implements IWaitingRoomService {
 
     @Override
     public WaitingRoomDto update(UpdateWaitingRoomDto updateWaitingRoomDto, Long id) {
-        WaitingRoom waitingRoomById = waitingRoomRepository.findById(id)
+        WaitingRoom waitingRoom = waitingRoomRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Waiting Room", id));
-
-        WaitingRoom waitingRoom = waitingRoomMapper.toEntity(updateWaitingRoomDto);
         waitingRoom.setDate(updateWaitingRoomDto.date());
         waitingRoom.setCapacity(updateWaitingRoomDto.capacity());
         waitingRoom.setAlgorithmType(updateWaitingRoomDto.algorithmType());
@@ -55,6 +53,8 @@ public class WaitingRoomService implements IWaitingRoomService {
 
     @Override
     public void delete(Long id) {
-
+        WaitingRoom waitingRoom = waitingRoomRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Waiting Room", id));
+        waitingRoomRepository.delete(waitingRoom);
     }
 }
