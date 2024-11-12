@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/api/v1/Waiting-List")
 @RequiredArgsConstructor
@@ -34,6 +36,12 @@ public class WaitingRoomController {
             @RequestBody UpdateWaitingRoomDto updateWaitingRoomDto
     ){
         return new ResponseEntity<>(waitingRoomService.update(updateWaitingRoomDto, id), HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<WaitingRoomDto>> findAll(){
+        List<WaitingRoomDto> waitingRoomDtoList = waitingRoomService.findAll();
+        return new ResponseEntity<>(waitingRoomDtoList, HttpStatus.OK);
     }
 
 }
