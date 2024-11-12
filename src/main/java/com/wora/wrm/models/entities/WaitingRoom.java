@@ -21,7 +21,6 @@ import java.util.List;
 public class WaitingRoom {
 
     @Id
-    @Positive
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
@@ -34,13 +33,11 @@ public class WaitingRoom {
     @Enumerated(EnumType.STRING)
     private AlgorithmType algorithmType;
 
-    @NotNull
     @Positive
-    @Column(name = "capacity", nullable = false)
+    @Column(name = "capacity", nullable = true)
     private Integer Capacity;
 
-    @NotNull
-    @Column(name = "workMode", nullable = false)
+    @Column(name = "workMode", nullable = true)
     @Enumerated(EnumType.STRING)
     private WorkMode workMode;
 

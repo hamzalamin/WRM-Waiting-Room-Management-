@@ -1,5 +1,6 @@
 package com.wora.wrm.services.impl;
 
+import com.wora.wrm.config.WaitingRoomProperties;
 import com.wora.wrm.exceptions.EntityNotFoundException;
 import com.wora.wrm.mappers.WaitingRoomMapper;
 import com.wora.wrm.models.dtos.WaitingRoomDtos.CreateWaitingRoomDto;
@@ -18,10 +19,20 @@ import java.util.List;
 public class WaitingRoomService implements IWaitingRoomService {
     private final WaitingRoomRepository waitingRoomRepository;
     private final WaitingRoomMapper waitingRoomMapper;
+    private final WaitingRoomProperties waitingRoomProperties;
 
     @Override
     public WaitingRoomDto save(CreateWaitingRoomDto createWaitingRoomDto) {
         WaitingRoom waitingRoom = waitingRoomMapper.toEntity(createWaitingRoomDto);
+        if (waitingRoom.getAlgorithmType() == null){
+            waitingRoom.setAlgorithmType(waitingRoomProperties.getDefaultAlgorithmType());
+        }
+        if (waitingRoom.getCapacity() == null){
+            waitingRoom.setCapacity(waitingRoomProperties.getDefaultCapacity());
+        }
+        if (waitingRoom.getWorkMode() == null){
+            waitingRoom.setWorkMode(waitingRoomProperties.getDefaultWorkMode());
+        }
         WaitingRoom savedWaitingRoom = waitingRoomRepository.save(waitingRoom);
         return waitingRoomMapper.toDto(savedWaitingRoom);
     }
@@ -38,8 +49,15 @@ public class WaitingRoomService implements IWaitingRoomService {
         WaitingRoom waitingRoom = waitingRoomRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Waiting Room", id));
         waitingRoom.setDate(updateWaitingRoomDto.date());
-        waitingRoom.setCapacity(updateWaitingRoomDto.capacity());
-        waitingRoom.setAlgorithmType(updateWaitingRoomDto.algorithmType());
+        if (waitingRoom.getAlgorithmType() == null){
+            waitingRoom.setAlgorithmType(waitingRoomProperties.getDefaultAlgorithmType());
+        }
+        if (waitingRoom.getCapacity() == null){
+            waitingRoom.setCapacity(waitingRoomProperties.getDefaultCapacity());
+        }
+        if (waitingRoom.getWorkMode() == null){
+            waitingRoom.setWorkMode(waitingRoomProperties.getDefaultWorkMode());
+        }
         WaitingRoom updatedWaitingRoom = waitingRoomRepository.save(waitingRoom);
         return waitingRoomMapper.toDto(updatedWaitingRoom);
     }

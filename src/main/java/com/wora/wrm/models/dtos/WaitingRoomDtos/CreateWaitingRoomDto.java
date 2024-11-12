@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Positive;
 public record CreateWaitingRoomDto(
         @NotNull @Positive Integer date,
         AlgorithmType algorithmType,
-        @NotNull Integer capacity,
-        @NotNull WorkMode workMode
+        Integer capacity,
+        WorkMode workMode
 ) {
 }
