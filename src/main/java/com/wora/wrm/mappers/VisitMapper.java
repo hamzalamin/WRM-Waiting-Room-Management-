@@ -7,7 +7,9 @@ import com.wora.wrm.models.dtos.visitDto.UpdateVisitDto;
 import com.wora.wrm.models.dtos.visitDto.UpdateVisitorStatusDto;
 import com.wora.wrm.models.dtos.visitDto.VisitDto;
 import com.wora.wrm.models.entities.Visit;
+import org.mapstruct.Mapper;
 
+@Mapper(componentModel = "spring")
 public interface VisitMapper extends GenericMapper<Visit, VisitDto> {
     VisitDto toDto(Visit visit);
     Visit toEntity(VisitDto dto);
