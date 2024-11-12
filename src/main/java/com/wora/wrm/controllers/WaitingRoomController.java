@@ -44,4 +44,10 @@ public class WaitingRoomController {
         return new ResponseEntity<>(waitingRoomDtoList, HttpStatus.OK);
     }
 
+    @DeleteMapping("/{id}/remove")
+    public ResponseEntity<String> delete(@PathVariable Long id){
+        waitingRoomService.delete(id);
+        return new ResponseEntity<>("WAITING ROOM " +id+ " DELETED SUCCESSFULLY", HttpStatus.OK);
+    }
+
 }
