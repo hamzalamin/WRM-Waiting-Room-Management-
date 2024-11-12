@@ -7,7 +7,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public record CreateVisitDto(
+public record UpdateVisitDto(
         @NotNull LocalDateTime arrivalTime,
         LocalTime startTime,
         LocalTime endTime,

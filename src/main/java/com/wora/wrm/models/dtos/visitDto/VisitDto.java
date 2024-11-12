@@ -16,7 +16,7 @@ public record VisitDto(
         LocalTime startTime,
         LocalTime endTime,
         @NotNull VisitorStatus visitorStatus,
-        @NotNull Byte priority,
+        Byte priority,
         Duration estimatedProcessingTime,
         EmbeddedVisitorDto visitor,
         EmbeddedWaitingRoomDto waitingRoom

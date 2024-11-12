@@ -40,7 +40,6 @@ public class Visit {
     private VisitorStatus visitorStatus;
 
     @Column(name = "priority")
-    @NotNull
     private Byte priority;
 
     @Column(name = "estimated_proccessing_time")
