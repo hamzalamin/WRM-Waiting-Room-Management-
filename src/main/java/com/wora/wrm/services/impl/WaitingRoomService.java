@@ -75,4 +75,10 @@ public class WaitingRoomService implements IWaitingRoomService {
                 .orElseThrow(() -> new EntityNotFoundException("Waiting Room", id));
         waitingRoomRepository.delete(waitingRoom);
     }
+
+    @Override
+    public WaitingRoom getWaitingRoomEntityById(Long id){
+        return waitingRoomRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Waiting Room", id));
+    }
 }
