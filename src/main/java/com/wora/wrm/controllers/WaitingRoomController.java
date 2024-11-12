@@ -25,7 +25,7 @@ public class WaitingRoomController {
         return new ResponseEntity<>(waitingRoomService.save(createWaitingRoomDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/find")
     public ResponseEntity<WaitingRoomDto> findById(@PathVariable Long id){
         return new ResponseEntity<>(waitingRoomService.findById(id), HttpStatus.OK);
     }
@@ -38,7 +38,7 @@ public class WaitingRoomController {
         return new ResponseEntity<>(waitingRoomService.update(updateWaitingRoomDto, id), HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping("/findAll")
     public ResponseEntity<List<WaitingRoomDto>> findAll(){
         List<WaitingRoomDto> waitingRoomDtoList = waitingRoomService.findAll();
         return new ResponseEntity<>(waitingRoomDtoList, HttpStatus.OK);
@@ -47,7 +47,7 @@ public class WaitingRoomController {
     @DeleteMapping("/{id}/remove")
     public ResponseEntity<String> delete(@PathVariable Long id){
         waitingRoomService.delete(id);
-        return new ResponseEntity<>("WAITING ROOM " +id+ " DELETED SUCCESSFULLY", HttpStatus.OK);
+        return new ResponseEntity<>("WAITING ROOM " +id+ " DELETED SUCCESSFULLY !!", HttpStatus.OK);
     }
 
 }
