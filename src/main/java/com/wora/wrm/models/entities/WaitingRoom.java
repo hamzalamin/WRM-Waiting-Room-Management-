@@ -10,6 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "waiting-rooms")
 @Getter
@@ -39,4 +41,7 @@ public class WaitingRoom {
     @NotNull
     @Column(name = "workMode", nullable = false)
     private WorkMode workMode;
+
+    @OneToMany(mappedBy = "waitingRoom", cascade = CascadeType.ALL)
+    private List<Visit> visits;
 }

@@ -46,9 +46,11 @@ public class Visit {
     private Duration estimatedProcessingTime;
 
     @ManyToOne
+    @MapsId("visitorId")
     private Visitor visitor;
 
     @ManyToOne
+    @MapsId("waitingRoomId")
     private WaitingRoom waitingRoom;
 
 }

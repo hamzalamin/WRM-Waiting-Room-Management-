@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "visitors")
 @Getter
@@ -25,4 +27,7 @@ public class Visitor {
     @NotBlank
     @Column(name = "l_name", nullable = false)
     private String lName;
+
+    @OneToMany(mappedBy = "visitor", cascade = CascadeType.ALL)
+    private List<Visit> visits;
 }
