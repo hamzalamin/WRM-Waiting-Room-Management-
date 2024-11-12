@@ -8,9 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/api/v1/Waiting-List")
@@ -22,6 +20,11 @@ public class WaitingRoomController {
     @PostMapping("/save")
     public ResponseEntity<WaitingRoomDto> save(@RequestBody @Valid CreateWaitingRoomDto createWaitingRoomDto){
         return new ResponseEntity<>(waitingRoomService.save(createWaitingRoomDto), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<WaitingRoomDto> findById(@PathVariable Long id){
+        return new ResponseEntity<>(waitingRoomService.findById(id), HttpStatus.OK);
     }
 
 }
