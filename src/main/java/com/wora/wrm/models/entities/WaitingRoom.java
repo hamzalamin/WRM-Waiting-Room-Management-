@@ -31,6 +31,7 @@ public class WaitingRoom {
     private Integer date;
 
     @Column(name = "algorithm_type", nullable = true)
+    @Enumerated(EnumType.STRING)
     private AlgorithmType algorithmType;
 
     @NotNull
@@ -40,6 +41,7 @@ public class WaitingRoom {
 
     @NotNull
     @Column(name = "workMode", nullable = false)
+    @Enumerated(EnumType.STRING)
     private WorkMode workMode;
 
     @OneToMany(mappedBy = "waitingRoom", cascade = CascadeType.ALL)

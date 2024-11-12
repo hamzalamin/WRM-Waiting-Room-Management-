@@ -36,6 +36,7 @@ public class Visit {
 
     @NotNull
     @Column(name = "visitor_status")
+    @Enumerated(EnumType.STRING)
     private VisitorStatus visitorStatus;
 
     @Column(name = "priority")
@@ -45,12 +46,12 @@ public class Visit {
     @Column(name = "estimated_proccessing_time")
     private Duration estimatedProcessingTime;
 
-    @ManyToOne
-    @MapsId("visitorId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "visitor_id", insertable = false, updatable = false)
     private Visitor visitor;
 
-    @ManyToOne
-    @MapsId("waitingRoomId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "waiting_room_id", insertable = false, updatable = false)
     private WaitingRoom waitingRoom;
 
 }
