@@ -6,12 +6,18 @@ import com.wora.wrm.mappers.WaitingRoomMapper;
 import com.wora.wrm.models.dtos.WaitingRoomDtos.CreateWaitingRoomDto;
 import com.wora.wrm.models.dtos.WaitingRoomDtos.UpdateWaitingRoomDto;
 import com.wora.wrm.models.dtos.WaitingRoomDtos.WaitingRoomDto;
+import com.wora.wrm.models.dtos.visitDto.EmbeddedVisitDto;
+import com.wora.wrm.models.dtos.visitDto.VisitDto;
+import com.wora.wrm.models.dtos.visitorDtos.VisitorDto;
 import com.wora.wrm.models.entities.WaitingRoom;
+import com.wora.wrm.models.enumes.AlgorithmType;
+import com.wora.wrm.models.enumes.VisitorStatus;
 import com.wora.wrm.repositories.WaitingRoomRepository;
 import com.wora.wrm.services.interfaces.IWaitingRoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -49,7 +55,18 @@ public class WaitingRoomService implements IWaitingRoomService {
     @Override
     public List<WaitingRoomDto> findAll() {
         return waitingRoomRepository.findAll().stream()
-                .map(waitingRoomMapper::toDto)
+                .map(waitingRoom -> {
+                    WaitingRoomDto dto = waitingRoomMapper.toDto(waitingRoom);
+                    List<EmbeddedVisitDto> sortedVisits = algorithmType(dto.visits(), dto.algorithmType());
+                    return new WaitingRoomDto(
+                            dto.id(),
+                            dto.date(),
+                            dto.algorithmType(),
+                            dto.capacity(),
+                            dto.workMode(),
+                            sortedVisits
+                    );
+                })
                 .toList();
     }
 
@@ -71,6 +88,21 @@ public class WaitingRoomService implements IWaitingRoomService {
         if (waitingRoom.getWorkMode() == null) {
             waitingRoom.setWorkMode(waitingRoomProperties.getDefaultWorkMode());
         }
+    }
+
+    private List<EmbeddedVisitDto> algorithmType(List<EmbeddedVisitDto> visits, AlgorithmType algorithmType){
+        List<EmbeddedVisitDto> waitingVisits = visits.stream()
+                .filter(visit -> VisitorStatus.WAITING.equals(visit.visitorStatus()))
+                .toList();
+        switch (algorithmType){
+            case FIFO -> {
+                return waitingVisits.stream().sorted(Comparator.comparing(EmbeddedVisitDto::arrivalTime))
+                        .toList();
+            }
+        }
+
+        System.out.println("INA ALGO NTAYAAA : " + algorithmType);
+        return waitingVisits;
     }
 
     @Override
