@@ -1,8 +1,10 @@
 package com.wora.wrm.services.impl;
 
 import com.wora.wrm.config.VisitProperties;
+import com.wora.wrm.exceptions.EntityNotFoundException;
 import com.wora.wrm.mappers.VisitMapper;
 import com.wora.wrm.models.dtos.visitDto.SubscribeVisitorDto;
+import com.wora.wrm.models.dtos.visitDto.UpdateVisitorStatusDto;
 import com.wora.wrm.models.dtos.visitDto.VisitDto;
 import com.wora.wrm.models.entities.Visit;
 import com.wora.wrm.models.entities.Visitor;
@@ -43,4 +45,15 @@ public class VisitService implements IVisitService {
         Visit savedVisit = visitRepository.save(visit);
         return visitMapper.toDto(savedVisit);
     }
+
+    @Override
+    public VisitDto cancelSubscription(UpdateVisitorStatusDto updateVisitorStatusDto, Long visitorId, Long waitingRoomId) {
+        VisitorWaitingRoomId id = new VisitorWaitingRoomId(visitorId, waitingRoomId);
+        Visit findVisit = visitRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("EmbeddedId", id));
+        findVisit.setVisitorStatus(updateVisitorStatusDto.visitorStatus());
+        Visit updateVisit = visitRepository.save(findVisit);
+        return visitMapper.toDto(updateVisit);
+    }
+
+
 }
