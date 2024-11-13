@@ -46,7 +46,9 @@ public class VisitorService implements IVisitorService {
 
     @Override
     public List<VisitorDto> findAll() {
-        return List.of();
+        return visitorRepository.findAll().stream()
+                .map(visitorMapper::toDto)
+                .toList();
     }
 
     @Override

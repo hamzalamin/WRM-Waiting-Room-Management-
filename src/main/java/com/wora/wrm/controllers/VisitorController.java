@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/api/v1/visitor/")
 @RequiredArgsConstructor
@@ -20,5 +22,11 @@ public class VisitorController {
     @GetMapping("/{id}")
     public ResponseEntity<VisitorDto> findById(@PathVariable Long id){
         return new ResponseEntity<>(visitorService.findById(id), HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<VisitorDto>> findAll(){
+        List<VisitorDto> visitorList = visitorService.findAll();
+        return new ResponseEntity<>(visitorList, HttpStatus.OK);
     }
 }
