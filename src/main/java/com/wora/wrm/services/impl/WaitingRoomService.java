@@ -103,6 +103,11 @@ public class WaitingRoomService implements IWaitingRoomService {
                 return waitingVisits.stream().sorted(Comparator.comparing(EmbeddedVisitDto::estimatedProcessingTime))
                         .toList();
             }
+            case PRIORITY -> {
+                return waitingVisits.stream().sorted(Comparator.comparing(EmbeddedVisitDto::priority)
+                                .thenComparing(EmbeddedVisitDto::arrivalTime))
+                        .toList();
+            }
         }
 
         System.out.println("INA ALGO NTAYAAA : " + algorithmType);
