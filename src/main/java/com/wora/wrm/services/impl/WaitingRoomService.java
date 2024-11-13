@@ -24,15 +24,7 @@ public class WaitingRoomService implements IWaitingRoomService {
     @Override
     public WaitingRoomDto save(CreateWaitingRoomDto createWaitingRoomDto) {
         WaitingRoom waitingRoom = waitingRoomMapper.toEntity(createWaitingRoomDto);
-        if (waitingRoom.getAlgorithmType() == null){
-            waitingRoom.setAlgorithmType(waitingRoomProperties.getDefaultAlgorithmType());
-        }
-        if (waitingRoom.getCapacity() == null){
-            waitingRoom.setCapacity(waitingRoomProperties.getDefaultCapacity());
-        }
-        if (waitingRoom.getWorkMode() == null){
-            waitingRoom.setWorkMode(waitingRoomProperties.getDefaultWorkMode());
-        }
+        setDefaultPropertiesIfNeeded(waitingRoom);
         WaitingRoom savedWaitingRoom = waitingRoomRepository.save(waitingRoom);
         return waitingRoomMapper.toDto(savedWaitingRoom);
     }
@@ -49,15 +41,7 @@ public class WaitingRoomService implements IWaitingRoomService {
         WaitingRoom waitingRoom = waitingRoomRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Waiting Room", id));
         waitingRoom.setDate(updateWaitingRoomDto.date());
-        if (waitingRoom.getAlgorithmType() == null){
-            waitingRoom.setAlgorithmType(waitingRoomProperties.getDefaultAlgorithmType());
-        }
-        if (waitingRoom.getCapacity() == null){
-            waitingRoom.setCapacity(waitingRoomProperties.getDefaultCapacity());
-        }
-        if (waitingRoom.getWorkMode() == null){
-            waitingRoom.setWorkMode(waitingRoomProperties.getDefaultWorkMode());
-        }
+        setDefaultPropertiesIfNeeded(waitingRoom);
         WaitingRoom updatedWaitingRoom = waitingRoomRepository.save(waitingRoom);
         return waitingRoomMapper.toDto(updatedWaitingRoom);
     }
@@ -74,6 +58,19 @@ public class WaitingRoomService implements IWaitingRoomService {
         WaitingRoom waitingRoom = waitingRoomRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Waiting Room", id));
         waitingRoomRepository.delete(waitingRoom);
+    }
+
+
+    private void setDefaultPropertiesIfNeeded(WaitingRoom waitingRoom) {
+        if (waitingRoom.getAlgorithmType() == null) {
+            waitingRoom.setAlgorithmType(waitingRoomProperties.getDefaultAlgorithmType());
+        }
+        if (waitingRoom.getCapacity() == null) {
+            waitingRoom.setCapacity(waitingRoomProperties.getDefaultCapacity());
+        }
+        if (waitingRoom.getWorkMode() == null) {
+            waitingRoom.setWorkMode(waitingRoomProperties.getDefaultWorkMode());
+        }
     }
 
     @Override

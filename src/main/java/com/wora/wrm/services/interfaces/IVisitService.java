@@ -4,5 +4,5 @@ import com.wora.wrm.models.dtos.visitDto.SubscribeVisitorDto;
 import com.wora.wrm.models.dtos.visitDto.VisitDto;
 
 public interface IVisitService {
-    VisitDto subscribeVisitor(SubscribeVisitorDto subscribeVisitorDto, Long visitorId, Long waitingRoomId);
+    VisitDto subscribeVisitor(SubscribeVisitorDto subscribeVisitorDto);
 }

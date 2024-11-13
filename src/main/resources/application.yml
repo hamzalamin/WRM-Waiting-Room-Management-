@@ -16,3 +16,6 @@ waiting-room:
   default-algorithm-type: FIFO
   default-work-mode: MORNING
   default-capacity: 15
+
+visit:
+  default-visitor-status: WAITING

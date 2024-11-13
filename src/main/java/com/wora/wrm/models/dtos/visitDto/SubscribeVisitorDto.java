@@ -1,5 +1,6 @@
 package com.wora.wrm.models.dtos.visitDto;
 
+import com.wora.wrm.models.enumes.VisitorStatus;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.Duration;
@@ -10,6 +11,7 @@ public record SubscribeVisitorDto(
         @NotNull Long waitingRoomId,
         @NotNull LocalDateTime arrivalTime,
         Byte priority,
-        Duration estimatedProcessingTime
+        Duration estimatedProcessingTime,
+        VisitorStatus visitorStatus
 ) {
 }
