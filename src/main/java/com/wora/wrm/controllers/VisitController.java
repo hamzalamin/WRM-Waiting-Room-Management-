@@ -39,4 +39,13 @@ public class VisitController {
     ){
         return new ResponseEntity<>(visitService.beginVisit(updateVisitorStatusDto, visitorId, waitingRoomId), HttpStatus.OK);
     }
+
+    @PutMapping("/visitors/{visitorId}/waiting-rooms/{waitingRoomId}/completeVisit")
+    public ResponseEntity<VisitDto> completeVisit(
+            @PathVariable Long visitorId,
+            @PathVariable Long waitingRoomId,
+            @RequestBody @Valid UpdateVisitorStatusDto updateVisitorStatusDto
+    ){
+        return new ResponseEntity<>(visitService.completeVisit(updateVisitorStatusDto, visitorId, waitingRoomId), HttpStatus.OK);
+    }
 }
