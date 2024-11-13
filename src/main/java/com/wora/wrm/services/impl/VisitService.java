@@ -55,5 +55,16 @@ public class VisitService implements IVisitService {
         return visitMapper.toDto(updateVisit);
     }
 
+    public VisitDto beginVisit(UpdateVisitorStatusDto updateVisitorStatusDto, Long visitorId, Long waitingRoomId){
+        VisitorWaitingRoomId id = new VisitorWaitingRoomId(visitorId, waitingRoomId);
+        Visit findVisit = visitRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("EmbeddedId", id));
+        findVisit.setVisitorStatus(updateVisitorStatusDto.visitorStatus());
+        findVisit.setStartTime(updateVisitorStatusDto.startTime());
+        findVisit.setEndTime(updateVisitorStatusDto.endTime());
+        Visit updateVisit = visitRepository.save(findVisit);
+        return visitMapper.toDto(updateVisit);
+
+    }
+
 
 }

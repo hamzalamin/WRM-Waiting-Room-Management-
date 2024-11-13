@@ -22,12 +22,21 @@ public class VisitController {
      return new ResponseEntity<>(visitService.subscribeVisitor(subscribeVisitorDto), HttpStatus.CREATED);
     }
 
-    @PutMapping("/visitors/{visitorId}/waiting-rooms/{waitingRoomId}/cancel")
+    @PutMapping("/visitors/{visitorId}/waiting-rooms/{waitingRoomId}/cancelVisit")
     public ResponseEntity<VisitDto> changeStatus(
             @PathVariable Long visitorId,
             @PathVariable Long waitingRoomId,
             @RequestBody @Valid UpdateVisitorStatusDto updateVisitorStatusDto
     ){
         return new ResponseEntity<>(visitService.cancelSubscription(updateVisitorStatusDto, visitorId, waitingRoomId), HttpStatus.OK);
+    }
+
+    @PutMapping("/visitors/{visitorId}/waiting-rooms/{waitingRoomId}/beginVisit")
+    public ResponseEntity<VisitDto> beginVisit(
+            @PathVariable Long visitorId,
+            @PathVariable Long waitingRoomId,
+            @RequestBody @Valid UpdateVisitorStatusDto updateVisitorStatusDto
+    ){
+        return new ResponseEntity<>(visitService.beginVisit(updateVisitorStatusDto, visitorId, waitingRoomId), HttpStatus.OK);
     }
 }
