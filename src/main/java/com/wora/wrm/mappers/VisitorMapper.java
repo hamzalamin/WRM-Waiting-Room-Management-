@@ -7,6 +7,6 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface VisitorMapper extends GenericMapper<Visitor, VisitorDto> {
-    VisitorDto toDto(Visitor visitor);
     Visitor toEntity(VisitorDto visitorDto);
+    VisitorDto toDto(Visitor visitor);
 }

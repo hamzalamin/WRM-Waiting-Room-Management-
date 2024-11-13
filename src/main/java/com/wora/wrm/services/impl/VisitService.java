@@ -18,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -55,6 +57,7 @@ public class VisitService implements IVisitService {
         return visitMapper.toDto(updateVisit);
     }
 
+    @Override
     public VisitDto beginVisit(UpdateVisitorStatusDto updateVisitorStatusDto, Long visitorId, Long waitingRoomId){
         VisitorWaitingRoomId id = new VisitorWaitingRoomId(visitorId, waitingRoomId);
         Visit findVisit = visitRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("EmbeddedId", id));
@@ -65,6 +68,7 @@ public class VisitService implements IVisitService {
 
     }
 
+    @Override
     public VisitDto completeVisit(UpdateVisitorStatusDto updateVisitorStatusDto, Long visitorId, Long waitingRoomId){
         VisitorWaitingRoomId id = new VisitorWaitingRoomId(visitorId, waitingRoomId);
         Visit findVisit = visitRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("EmbeddedId", id));
@@ -74,6 +78,13 @@ public class VisitService implements IVisitService {
         Visit updateVisit = visitRepository.save(findVisit);
         return visitMapper.toDto(updateVisit);
 
+    }
+
+    @Override
+    public List<VisitDto> findAll(){
+        return visitRepository.findAll().stream()
+                .map(visitMapper::toDto)
+                .toList();
     }
 
 

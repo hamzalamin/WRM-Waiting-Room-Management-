@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/api/v1/visit")
 @RequiredArgsConstructor
@@ -47,5 +49,11 @@ public class VisitController {
             @RequestBody @Valid UpdateVisitorStatusDto updateVisitorStatusDto
     ){
         return new ResponseEntity<>(visitService.completeVisit(updateVisitorStatusDto, visitorId, waitingRoomId), HttpStatus.OK);
+    }
+
+    @GetMapping("/visitors/waiting-rooms/List")
+    public ResponseEntity<List<VisitDto>> findAll(){
+        List<VisitDto> visits = visitService.findAll();
+        return new ResponseEntity<>(visits, HttpStatus.OK);
     }
 }
