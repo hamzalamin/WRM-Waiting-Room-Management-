@@ -12,4 +12,5 @@ public interface IVisitService {
     VisitDto beginVisit(UpdateVisitorStatusDto updateVisitorStatusDto, Long visitorId, Long waitingRoomId);
     VisitDto completeVisit(UpdateVisitorStatusDto updateVisitorStatusDto, Long visitorId, Long waitingRoomId);
     List<VisitDto> findAll();
+    VisitDto findById(Long visitorId, Long waitingRoomId);
 }

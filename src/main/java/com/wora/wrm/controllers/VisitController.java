@@ -56,4 +56,9 @@ public class VisitController {
         List<VisitDto> visits = visitService.findAll();
         return new ResponseEntity<>(visits, HttpStatus.OK);
     }
+
+    @GetMapping("/findById/visitors/{visitorId}/waiting-rooms/{waitingRoomId}")
+    public ResponseEntity<VisitDto> findById(@PathVariable Long visitorId, @PathVariable Long waitingRoomId){
+        return new ResponseEntity<>(visitService.findById(visitorId, waitingRoomId), HttpStatus.OK);
+    }
 }

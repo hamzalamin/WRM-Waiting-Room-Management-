@@ -87,5 +87,12 @@ public class VisitService implements IVisitService {
                 .toList();
     }
 
+    @Override
+    public VisitDto findById(Long visitorId, Long waitingRoomId){
+        VisitorWaitingRoomId id = new VisitorWaitingRoomId(visitorId, waitingRoomId);
+        Visit visit = visitRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Visits", id));
+        return visitMapper.toDto(visit);
+    }
+
 
 }
