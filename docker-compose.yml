@@ -2,14 +2,16 @@ version: "3.8"
 
 services:
   db:
-    image: postgres:15
+    image: postgres:alpine
+    ports:
+      - "1414:1414"
+    command: [ "postgres", "-p", "1414" ]
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 123
-      POSTGRES_DB: wrm
+      POSTGRES_DB: wrm1
     volumes:
       - db-data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
+
 volumes:
   db-data:
