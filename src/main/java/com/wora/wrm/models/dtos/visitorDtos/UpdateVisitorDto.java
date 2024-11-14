@@ -1,4 +1,9 @@
 package com.wora.wrm.models.dtos.visitorDtos;
 
-public record UpdateVisitorDto() {
+import jakarta.validation.constraints.NotBlank;
+
+public record UpdateVisitorDto(
+        @NotBlank String fName,
+        @NotBlank String lName
+) {
 }
