@@ -1,14 +1,14 @@
 package com.wora.wrm.controllers;
 
+import com.wora.wrm.models.dtos.visitorDtos.CreateVisitorDto;
 import com.wora.wrm.models.dtos.visitorDtos.VisitorDto;
 import com.wora.wrm.services.interfaces.IVisitorService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,5 +28,10 @@ public class VisitorController {
     public ResponseEntity<List<VisitorDto>> findAll(){
         List<VisitorDto> visitorList = visitorService.findAll();
         return new ResponseEntity<>(visitorList, HttpStatus.OK);
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<VisitorDto> save(@RequestBody @Valid CreateVisitorDto createVisitorDto){
+        return new ResponseEntity<>(visitorService.save(createVisitorDto), HttpStatus.CREATED);
     }
 }
