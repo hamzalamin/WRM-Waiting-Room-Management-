@@ -27,7 +27,9 @@ public class VisitorService implements IVisitorService {
 
     @Override
     public VisitorDto save(CreateVisitorDto createVisitorDto) {
-        return null;
+        Visitor visitor = visitorMapper.toEntity(createVisitorDto);
+        Visitor savedVisitor = visitorRepository.save(visitor);
+        return visitorMapper.toDto(savedVisitor);
     }
 
     @Override

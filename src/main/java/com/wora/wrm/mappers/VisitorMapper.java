@@ -1,6 +1,8 @@
 package com.wora.wrm.mappers;
 
 import com.wora.wrm.mappers.api.GenericMapper;
+import com.wora.wrm.models.dtos.visitorDtos.CreateVisitorDto;
+import com.wora.wrm.models.dtos.visitorDtos.UpdateVisitorDto;
 import com.wora.wrm.models.dtos.visitorDtos.VisitorDto;
 import com.wora.wrm.models.entities.Visitor;
 import org.mapstruct.Mapper;
@@ -17,4 +19,15 @@ public interface VisitorMapper extends GenericMapper<Visitor, VisitorDto> {
     @Mapping(source = "lName", target = "LName")
     @Mapping(source = "visitDtoList", target = "visits")
     Visitor toEntity(VisitorDto visitorDto);
+
+
+    @Mapping(source = "fName", target = "FName")
+    @Mapping(source = "lName", target = "LName")
+    @Mapping(source = "visitDtoList", target = "visits")
+    Visitor toEntity(CreateVisitorDto createVisitorDto);
+
+    @Mapping(source = "fName", target = "FName")
+    @Mapping(source = "lName", target = "LName")
+    @Mapping(source = "visitDtoList", target = "visits")
+    Visitor toEntity(UpdateVisitorDto updateVisitorDto);
 }

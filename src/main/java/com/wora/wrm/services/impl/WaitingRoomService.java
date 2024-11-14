@@ -7,8 +7,6 @@ import com.wora.wrm.models.dtos.WaitingRoomDtos.CreateWaitingRoomDto;
 import com.wora.wrm.models.dtos.WaitingRoomDtos.UpdateWaitingRoomDto;
 import com.wora.wrm.models.dtos.WaitingRoomDtos.WaitingRoomDto;
 import com.wora.wrm.models.dtos.visitDto.EmbeddedVisitDto;
-import com.wora.wrm.models.dtos.visitDto.VisitDto;
-import com.wora.wrm.models.dtos.visitorDtos.VisitorDto;
 import com.wora.wrm.models.entities.WaitingRoom;
 import com.wora.wrm.models.enumes.AlgorithmType;
 import com.wora.wrm.models.enumes.VisitorStatus;
