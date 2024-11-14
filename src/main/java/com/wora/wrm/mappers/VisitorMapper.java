@@ -23,11 +23,10 @@ public interface VisitorMapper extends GenericMapper<Visitor, VisitorDto> {
 
     @Mapping(source = "fName", target = "FName")
     @Mapping(source = "lName", target = "LName")
-    @Mapping(source = "visitDtoList", target = "visits")
     Visitor toEntity(CreateVisitorDto createVisitorDto);
 
     @Mapping(source = "fName", target = "FName")
     @Mapping(source = "lName", target = "LName")
-    @Mapping(source = "visitDtoList", target = "visits")
     Visitor toEntity(UpdateVisitorDto updateVisitorDto);
+
 }

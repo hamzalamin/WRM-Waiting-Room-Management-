@@ -41,8 +41,8 @@ public class VisitService implements IVisitService {
         visit.setVisitor(visitor);
         visit.setWaitingRoom(waitingRoom);
         visit.setArrivalTime(subscribeVisitorDto.arrivalTime());
-        visit.setPriority(subscribeVisitorDto.priority());
-        visit.setEstimatedProcessingTime(subscribeVisitorDto.estimatedProcessingTime());
+        visit.setPriority(visitProperties.getDefaultPriority());
+        visit.setEstimatedProcessingTime(visitProperties.getDefaultEstimatedProcessingTime());
         visit.setVisitorStatus(visitProperties.getDefaultVisitorStatus());
         Visit savedVisit = visitRepository.save(visit);
         return visitMapper.toDto(savedVisit);
