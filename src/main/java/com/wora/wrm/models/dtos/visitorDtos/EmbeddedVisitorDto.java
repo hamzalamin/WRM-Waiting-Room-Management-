@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Positive;
 
 public record EmbeddedVisitorDto(
         @Positive Long id,
-        @NotBlank String fName,
-        @NotBlank String lName
+        @NotBlank String firstName,
+        @NotBlank String lastName
 ) {
 }

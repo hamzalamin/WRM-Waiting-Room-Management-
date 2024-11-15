@@ -35,9 +35,9 @@ public class VisitorService implements IVisitorService {
     @Override
     public VisitorDto findById(Long id){
         Visitor visitor = visitorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Visitor", id));
-        System.out.println("AKHLOU AYAAAAAD :  first name: " + visitor.getFName() + " last name : " + visitor.getLName());
+        System.out.println("AKHLOU AYAAAAAD :  first name: " + visitor.getFirstName() + " last name : " + visitor.getLastName());
         VisitorDto visitorDto = visitorMapper.toDto(visitor);
-        System.out.println("AKHLOU AYAAAAAD DTO :  first name: " + visitorDto.fName() + " last name : " + visitorDto.lName());
+        System.out.println("AKHLOU AYAAAAAD DTO :  first name: " + visitorDto.firstName() + " last name : " + visitorDto.lastName());
         return visitorDto;
     }
 

@@ -22,11 +22,11 @@ public class Visitor {
 
     @NotBlank
     @Column(name = "f_name", nullable = false)
-    private String fName;
+    private String firstName;
 
     @NotBlank
     @Column(name = "l_name", nullable = false)
-    private String lName;
+    private String lastName;
 
     @OneToMany(mappedBy = "visitor", cascade = CascadeType.ALL)
     private List<Visit> visits;
