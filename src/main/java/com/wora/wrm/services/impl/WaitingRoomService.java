@@ -38,7 +38,19 @@ public class WaitingRoomService implements IWaitingRoomService {
     public WaitingRoomDto findById(Long id) {
         WaitingRoom waitingRoom = waitingRoomRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Waiting Room", id));
-        return waitingRoomMapper.toDto(waitingRoom);
+
+        WaitingRoomDto waitingRoomDto = waitingRoomMapper.toDto(waitingRoom);
+        List<EmbeddedVisitDto> sortedVisits = algorithmType(waitingRoomDto.visits(), waitingRoomDto.algorithmType());
+
+        return new WaitingRoomDto(
+                waitingRoomDto.id(),
+                waitingRoomDto.date(),
+                waitingRoomDto.algorithmType(),
+                waitingRoomDto.capacity(),
+                waitingRoomDto.workMode(),
+                sortedVisits
+        );
+
     }
 
     @Override
