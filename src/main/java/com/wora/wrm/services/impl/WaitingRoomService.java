@@ -2,6 +2,7 @@ package com.wora.wrm.services.impl;
 
 import com.wora.wrm.config.WaitingRoomProperties;
 import com.wora.wrm.exceptions.EntityNotFoundException;
+import com.wora.wrm.exceptions.NullAlgorithmException;
 import com.wora.wrm.mappers.WaitingRoomMapper;
 import com.wora.wrm.models.dtos.WaitingRoomDtos.CreateWaitingRoomDto;
 import com.wora.wrm.models.dtos.WaitingRoomDtos.UpdateWaitingRoomDto;
@@ -88,28 +89,31 @@ public class WaitingRoomService implements IWaitingRoomService {
         }
     }
 
-    private List<EmbeddedVisitDto> algorithmType(List<EmbeddedVisitDto> visits, AlgorithmType algorithmType){
+    private List<EmbeddedVisitDto> algorithmType(List<EmbeddedVisitDto> visits, AlgorithmType algorithmType) {
         List<EmbeddedVisitDto> waitingVisits = visits.stream()
                 .filter(visit -> VisitorStatus.WAITING.equals(visit.visitorStatus()))
                 .toList();
-        switch (algorithmType){
+
+        switch (algorithmType) {
             case FIFO -> {
-                return waitingVisits.stream().sorted(Comparator.comparing(EmbeddedVisitDto::arrivalTime))
+                return waitingVisits.stream()
+                        .sorted(Comparator.comparing(EmbeddedVisitDto::arrivalTime, Comparator.nullsLast(Comparator.naturalOrder())))
                         .toList();
             }
             case SJF -> {
-                return waitingVisits.stream().sorted(Comparator.comparing(EmbeddedVisitDto::estimatedProcessingTime))
+                return waitingVisits.stream()
+                        .sorted(Comparator.comparing(EmbeddedVisitDto::estimatedProcessingTime, Comparator.nullsLast(Comparator.naturalOrder())))
                         .toList();
             }
             case PRIORITY -> {
-                return waitingVisits.stream().sorted(Comparator.comparing(EmbeddedVisitDto::priority)
-                                .thenComparing(EmbeddedVisitDto::arrivalTime))
+                return waitingVisits.stream()
+                        .sorted(Comparator.comparing(EmbeddedVisitDto::priority, Comparator.nullsLast(Comparator.naturalOrder()))
+                                .thenComparing(EmbeddedVisitDto::arrivalTime,
+                                        Comparator.nullsLast(Comparator.naturalOrder())))
                         .toList();
             }
+            default -> throw new NullAlgorithmException("Unknown algorithm type: " + algorithmType);
         }
-
-        System.out.println("INA ALGO NTAYAAA : " + algorithmType);
-        return waitingVisits;
     }
 
     @Override
