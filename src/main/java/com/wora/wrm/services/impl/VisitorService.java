@@ -30,7 +30,11 @@ public class VisitorService implements IVisitorService {
 
     @Override
     public Duration calculateWaitingTime(LocalDateTime arrivalTime, LocalTime startTime) {
-        return null;
+        if (arrivalTime == null || startTime == null){
+            return Duration.ZERO;
+        }
+        LocalDateTime startDateTime = LocalDateTime.of(arrivalTime.toLocalDate(), startTime);
+        return Duration.between(arrivalTime, startDateTime);
     }
 
     @Override
