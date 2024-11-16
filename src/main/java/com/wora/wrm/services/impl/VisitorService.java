@@ -40,8 +40,25 @@ public class VisitorService implements IVisitorService {
 
     @Override
     public Duration calculateAverageWaitingTime(List<Visit> visits) {
-        return null;
+        if (visits.isEmpty()) {
+            return Duration.ZERO;
+        }
+
+        long totalWaitingTimeMillis = visits.stream()
+                .filter(visit -> visit.getArrivalTime() != null && visit.getStartTime() != null)
+                .mapToLong(visit -> {
+                    LocalDateTime arrivalTime = visit.getArrivalTime();
+                    LocalTime startTime = visit.getStartTime();
+                    LocalDateTime startDateTime = LocalDateTime.of(arrivalTime.toLocalDate(), startTime);
+                    return Duration.between(arrivalTime, startDateTime).toMillis();
+                })
+                .sum();
+
+        long averageWaitingTimeMillis = totalWaitingTimeMillis / visits.size();
+
+        return Duration.ofMillis(averageWaitingTimeMillis);
     }
+
 
     @Override
     public VisitorDto save(CreateVisitorDto createVisitorDto) {

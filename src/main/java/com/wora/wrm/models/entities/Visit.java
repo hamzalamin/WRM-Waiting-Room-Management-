@@ -52,5 +52,4 @@ public class Visit {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "waiting_room_id", insertable = false, updatable = false)
     private WaitingRoom waitingRoom;
-
 }
