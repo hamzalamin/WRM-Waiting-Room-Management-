@@ -5,6 +5,7 @@ import com.wora.wrm.mappers.VisitorMapper;
 import com.wora.wrm.models.dtos.visitorDtos.CreateVisitorDto;
 import com.wora.wrm.models.dtos.visitorDtos.UpdateVisitorDto;
 import com.wora.wrm.models.dtos.visitorDtos.VisitorDto;
+import com.wora.wrm.models.entities.Visit;
 import com.wora.wrm.models.entities.Visitor;
 import com.wora.wrm.repositories.VisitorRepository;
 import com.wora.wrm.services.interfaces.IVisitorService;
@@ -35,6 +36,11 @@ public class VisitorService implements IVisitorService {
         }
         LocalDateTime startDateTime = LocalDateTime.of(arrivalTime.toLocalDate(), startTime);
         return Duration.between(arrivalTime, startDateTime);
+    }
+
+    @Override
+    public Duration calculateAverageWaitingTime(List<Visit> visits) {
+        return null;
     }
 
     @Override
