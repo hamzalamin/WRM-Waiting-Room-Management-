@@ -3,6 +3,9 @@ package com.wora.wrm.controllers;
 import com.wora.wrm.models.dtos.visitDto.SubscribeVisitorDto;
 import com.wora.wrm.models.dtos.visitDto.UpdateVisitorStatusDto;
 import com.wora.wrm.models.dtos.visitDto.VisitDto;
+import com.wora.wrm.models.entities.Visit;
+import com.wora.wrm.models.entities.Visitor;
+import com.wora.wrm.services.impl.VisitorService;
 import com.wora.wrm.services.interfaces.IVisitService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Controller
@@ -18,6 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class VisitController {
     private final IVisitService visitService;
+    private final VisitorService visitorService;
 
     @PostMapping("/save")
     public ResponseEntity<VisitDto> save(@RequestBody @Valid SubscribeVisitorDto subscribeVisitorDto){
@@ -60,5 +67,16 @@ public class VisitController {
     @GetMapping("/findById/visitors/{visitorId}/waiting-rooms/{waitingRoomId}")
     public ResponseEntity<VisitDto> findById(@PathVariable Long visitorId, @PathVariable Long waitingRoomId){
         return new ResponseEntity<>(visitService.findById(visitorId, waitingRoomId), HttpStatus.OK);
+    }
+
+    @GetMapping("/{visitId}/waiting-time")
+    public ResponseEntity<Duration> calculateWaitingTime(
+            @PathVariable Long visitId,
+            @RequestParam LocalDateTime arrivalTime,
+            @RequestParam LocalTime startTime) {
+
+        Visitor visit = visitorService.getVisitorEntityById(visitId);
+        Duration waitingTime = visitorService.calculateWaitingTime(arrivalTime, startTime);
+        return ResponseEntity.ok(waitingTime);
     }
 }
