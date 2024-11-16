@@ -6,10 +6,12 @@ import com.wora.wrm.mappers.VisitMapper;
 import com.wora.wrm.models.dtos.visitDto.SubscribeVisitorDto;
 import com.wora.wrm.models.dtos.visitDto.UpdateVisitorStatusDto;
 import com.wora.wrm.models.dtos.visitDto.VisitDto;
+import com.wora.wrm.models.dtos.visitDto.WaitingTimeDto;
 import com.wora.wrm.models.entities.Visit;
 import com.wora.wrm.models.entities.Visitor;
 import com.wora.wrm.models.entities.WaitingRoom;
 import com.wora.wrm.models.entities.embeddables.VisitorWaitingRoomId;
+import com.wora.wrm.models.enumes.VisitorStatus;
 import com.wora.wrm.repositories.VisitRepository;
 import com.wora.wrm.services.interfaces.IVisitService;
 import com.wora.wrm.services.interfaces.IVisitorService;
@@ -18,6 +20,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -94,5 +98,22 @@ public class VisitService implements IVisitService {
         return visitMapper.toDto(visit);
     }
 
+    @Override
+    public WaitingTimeDto calculateAverageWaitTime() {
+        List<Visit> visits = visitRepository.findAll().stream()
+                .filter(visit -> visit.getVisitorStatus() == VisitorStatus.FINISHED)
+                .toList();
+        System.out.println(visits);
+
+        Duration totalWaitTime = visits.stream()
+                .filter(visit -> visit.getArrivalTime() != null && visit.getStartTime() != null)
+                .map(visit -> Duration.between(
+                        visit.getArrivalTime(),
+                        LocalDateTime.of(visit.getArrivalTime().toLocalDate(), visit.getStartTime())
+                ))
+                .reduce(Duration.ZERO, Duration::plus);
+
+        return new WaitingTimeDto((long) visits.size(), totalWaitTime);
+    }
 
 }

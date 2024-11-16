@@ -5,16 +5,12 @@ import com.wora.wrm.mappers.VisitorMapper;
 import com.wora.wrm.models.dtos.visitorDtos.CreateVisitorDto;
 import com.wora.wrm.models.dtos.visitorDtos.UpdateVisitorDto;
 import com.wora.wrm.models.dtos.visitorDtos.VisitorDto;
-import com.wora.wrm.models.entities.Visit;
 import com.wora.wrm.models.entities.Visitor;
 import com.wora.wrm.repositories.VisitorRepository;
 import com.wora.wrm.services.interfaces.IVisitorService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -28,37 +24,6 @@ public class VisitorService implements IVisitorService {
         return visitorRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Visitor", id));
     }
-
-    @Override
-    public Duration calculateWaitingTime(LocalDateTime arrivalTime, LocalTime startTime) {
-        if (arrivalTime == null || startTime == null){
-            return Duration.ZERO;
-        }
-        LocalDateTime startDateTime = LocalDateTime.of(arrivalTime.toLocalDate(), startTime);
-        return Duration.between(arrivalTime, startDateTime);
-    }
-
-    @Override
-    public Duration calculateAverageWaitingTime(List<Visit> visits) {
-        if (visits.isEmpty()) {
-            return Duration.ZERO;
-        }
-
-        long totalWaitingTimeMillis = visits.stream()
-                .filter(visit -> visit.getArrivalTime() != null && visit.getStartTime() != null)
-                .mapToLong(visit -> {
-                    LocalDateTime arrivalTime = visit.getArrivalTime();
-                    LocalTime startTime = visit.getStartTime();
-                    LocalDateTime startDateTime = LocalDateTime.of(arrivalTime.toLocalDate(), startTime);
-                    return Duration.between(arrivalTime, startDateTime).toMillis();
-                })
-                .sum();
-
-        long averageWaitingTimeMillis = totalWaitingTimeMillis / visits.size();
-
-        return Duration.ofMillis(averageWaitingTimeMillis);
-    }
-
 
     @Override
     public VisitorDto save(CreateVisitorDto createVisitorDto) {

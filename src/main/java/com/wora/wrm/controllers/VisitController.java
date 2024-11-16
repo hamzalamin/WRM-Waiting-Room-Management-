@@ -3,8 +3,7 @@ package com.wora.wrm.controllers;
 import com.wora.wrm.models.dtos.visitDto.SubscribeVisitorDto;
 import com.wora.wrm.models.dtos.visitDto.UpdateVisitorStatusDto;
 import com.wora.wrm.models.dtos.visitDto.VisitDto;
-import com.wora.wrm.models.entities.Visit;
-import com.wora.wrm.models.entities.Visitor;
+import com.wora.wrm.models.dtos.visitDto.WaitingTimeDto;
 import com.wora.wrm.services.impl.VisitorService;
 import com.wora.wrm.services.interfaces.IVisitService;
 import jakarta.validation.Valid;
@@ -14,9 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 @Controller
@@ -27,8 +23,8 @@ public class VisitController {
     private final VisitorService visitorService;
 
     @PostMapping("/save")
-    public ResponseEntity<VisitDto> save(@RequestBody @Valid SubscribeVisitorDto subscribeVisitorDto){
-     return new ResponseEntity<>(visitService.subscribeVisitor(subscribeVisitorDto), HttpStatus.CREATED);
+    public ResponseEntity<VisitDto> save(@RequestBody @Valid SubscribeVisitorDto subscribeVisitorDto) {
+        return new ResponseEntity<>(visitService.subscribeVisitor(subscribeVisitorDto), HttpStatus.CREATED);
     }
 
     @PutMapping("/visitors/{visitorId}/waiting-rooms/{waitingRoomId}/cancelVisit")
@@ -36,7 +32,7 @@ public class VisitController {
             @PathVariable Long visitorId,
             @PathVariable Long waitingRoomId,
             @RequestBody @Valid UpdateVisitorStatusDto updateVisitorStatusDto
-    ){
+    ) {
         return new ResponseEntity<>(visitService.cancelSubscription(updateVisitorStatusDto, visitorId, waitingRoomId), HttpStatus.OK);
     }
 
@@ -45,7 +41,7 @@ public class VisitController {
             @PathVariable Long visitorId,
             @PathVariable Long waitingRoomId,
             @RequestBody @Valid UpdateVisitorStatusDto updateVisitorStatusDto
-    ){
+    ) {
         return new ResponseEntity<>(visitService.beginVisit(updateVisitorStatusDto, visitorId, waitingRoomId), HttpStatus.OK);
     }
 
@@ -54,29 +50,23 @@ public class VisitController {
             @PathVariable Long visitorId,
             @PathVariable Long waitingRoomId,
             @RequestBody @Valid UpdateVisitorStatusDto updateVisitorStatusDto
-    ){
+    ) {
         return new ResponseEntity<>(visitService.completeVisit(updateVisitorStatusDto, visitorId, waitingRoomId), HttpStatus.OK);
     }
 
     @GetMapping("/visitors/waiting-rooms/List")
-    public ResponseEntity<List<VisitDto>> findAll(){
+    public ResponseEntity<List<VisitDto>> findAll() {
         List<VisitDto> visits = visitService.findAll();
         return new ResponseEntity<>(visits, HttpStatus.OK);
     }
 
     @GetMapping("/findById/visitors/{visitorId}/waiting-rooms/{waitingRoomId}")
-    public ResponseEntity<VisitDto> findById(@PathVariable Long visitorId, @PathVariable Long waitingRoomId){
+    public ResponseEntity<VisitDto> findById(@PathVariable Long visitorId, @PathVariable Long waitingRoomId) {
         return new ResponseEntity<>(visitService.findById(visitorId, waitingRoomId), HttpStatus.OK);
     }
 
-    @GetMapping("/{visitId}/waiting-time")
-    public ResponseEntity<Duration> calculateWaitingTime(
-            @PathVariable Long visitId,
-            @RequestParam LocalDateTime arrivalTime,
-            @RequestParam LocalTime startTime) {
-
-        Visitor visit = visitorService.getVisitorEntityById(visitId);
-        Duration waitingTime = visitorService.calculateWaitingTime(arrivalTime, startTime);
-        return ResponseEntity.ok(waitingTime);
+    @GetMapping("/average-waiting-time")
+    public ResponseEntity<WaitingTimeDto> calculateAverageWaitingTime() {
+        return new ResponseEntity<>(visitService.calculateAverageWaitTime(), HttpStatus.OK);
     }
 }
