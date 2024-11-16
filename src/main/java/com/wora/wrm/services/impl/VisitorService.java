@@ -11,6 +11,9 @@ import com.wora.wrm.services.interfaces.IVisitorService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -23,6 +26,11 @@ public class VisitorService implements IVisitorService {
     public Visitor getVisitorEntityById(Long id) {
         return visitorRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Visitor", id));
+    }
+
+    @Override
+    public Duration calculateWaitingTime(LocalDateTime arrivalTime, LocalTime startTime) {
+        return null;
     }
 
     @Override
