@@ -15,20 +15,35 @@ Organizations need solutions to manage visitor flows in waiting rooms, organize 
 - **Customizable schedules and capacities**: Defines maximum capacities and service hours for each day of the week. 🗓️
 - **Statistics and performance**: Generates performance indicators, such as average waiting times. 📈
 
-## Managed Entities 📋
-### 1. Visitor
-- **id** : `Long`, unique identifier.
-- **name** : `String`, visitor's name.
-- **arrivalTime** : `DateTime`, time of arrival.
-- **status** : `Enum`, visitor's status (`WAITING`, `IN_PROGRESS`, `FINISHED`, `CANCELLED`).
-- **priority** : `Integer`, priority level (for the HPF algorithm).
-- **estimatedProcessingTime** : `Integer`, estimated duration in minutes (for the SJF algorithm).
-- **startTime** : Service start time.
-- **endTime** : Service end time.
+## Entités gérées 📋
 
-### 2. WaitingRoom
-- **id** : `Long`, unique identifier.
-- **date** : `Date`, date of the waiting room.
+### 1. Visitor (Visiteur)
+
+- **id** : `Long`, identifiant unique.
+- **firstName** : `String`, prénom du visiteur.
+- **lastName** : `String`, nom de famille du visiteur.
+- **visits** : Liste des visites du visiteur. Relation `OneToMany` avec l'entité `Visit`.
+
+### 2. Visit (Visite)
+
+- **id** : `VisitorWaitingRoomId`, clé primaire composée, représentant l'identifiant du visiteur et de la salle d'attente.
+- **arrivalTime** : `LocalDateTime`, heure d'arrivée du visiteur dans la salle d'attente.
+- **startTime** : `LocalDateTime`, heure du début du service.
+- **endTime** : `LocalDateTime`, heure de fin du service.
+- **visitorStatus** : `VisitorStatus` (Enum), état du visiteur (`WAITING`, `IN_PROGRESS`, `FINISHED`, `CANCELLED`).
+- **priority** : `Byte`, niveau de priorité pour l'algorithme HPF.
+- **estimatedProcessingTime** : `Duration`, durée estimée en minutes pour le traitement du visiteur selon l'algorithme SJF.
+- **visitor** : Visiteur lié à cette visite (relation `ManyToOne`).
+- **waitingRoom** : Salle d'attente où le visiteur attend (relation `ManyToOne`).
+
+### 3. WaitingRoom (Salle d'attente)
+
+- **id** : `Long`, identifiant unique.
+- **date** : `LocalDate`, date de la salle d'attente.
+- **algorithmType** : `AlgorithmType` (Enum), type d'algorithme d'ordonnancement appliqué pour cette salle.
+- **capacity** : `Integer`, capacité maximale de la salle d'attente.
+- **workMode** : `WorkMode` (Enum), mode de travail de la salle d'attente (ex. normal, accéléré).
+- **visits** : Liste des visites dans cette salle d'attente. Relation `OneToMany` avec l'entité `Visit`.
 
 ## Prerequisites ⚙️
 Before starting, make sure you have the following installed:
