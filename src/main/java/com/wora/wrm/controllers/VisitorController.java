@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 @Controller
@@ -25,8 +26,11 @@ public class VisitorController {
     }
 
     @GetMapping
-    public ResponseEntity<List<VisitorDto>> findAll(){
-        List<VisitorDto> visitorList = visitorService.findAll();
+    public ResponseEntity<List<VisitorDto>> findAll(
+            @RequestParam int page,
+            @RequestParam int size
+    ){
+        List<VisitorDto> visitorList = visitorService.findAll(page, size);
         return new ResponseEntity<>(visitorList, HttpStatus.OK);
     }
 

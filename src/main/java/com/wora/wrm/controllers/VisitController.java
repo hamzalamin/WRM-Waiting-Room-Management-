@@ -1,5 +1,6 @@
 package com.wora.wrm.controllers;
 
+import com.sun.jdi.Value;
 import com.wora.wrm.models.dtos.visitDto.SubscribeVisitorDto;
 import com.wora.wrm.models.dtos.visitDto.UpdateVisitorStatusDto;
 import com.wora.wrm.models.dtos.visitDto.VisitDto;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 @Controller
@@ -55,8 +57,11 @@ public class VisitController {
     }
 
     @GetMapping("/visitors/waiting-rooms/List")
-    public ResponseEntity<List<VisitDto>> findAll() {
-        List<VisitDto> visits = visitService.findAll();
+    public ResponseEntity<List<VisitDto>> findAll(
+            @RequestParam int page,
+            @RequestParam int size
+    ) {
+        List<VisitDto> visits = visitService.findAll(page, size);
         return new ResponseEntity<>(visits, HttpStatus.OK);
     }
 

@@ -14,8 +14,10 @@ import com.wora.wrm.models.enumes.VisitorStatus;
 import com.wora.wrm.repositories.WaitingRoomRepository;
 import com.wora.wrm.services.interfaces.IWaitingRoomService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.util.Comparator;
 import java.util.List;
 
@@ -64,8 +66,9 @@ public class WaitingRoomService implements IWaitingRoomService {
     }
 
     @Override
-    public List<WaitingRoomDto> findAll() {
-        return waitingRoomRepository.findAll().stream()
+    public List<WaitingRoomDto> findAll(int page, int size) {
+        PageRequest pageable = PageRequest.of(page, size);
+        return waitingRoomRepository.findAll(pageable).stream()
                 .map(waitingRoom -> {
                     WaitingRoomDto dto = waitingRoomMapper.toDto(waitingRoom);
                     List<EmbeddedVisitDto> sortedVisits = algorithmType(dto.visits(), dto.algorithmType());

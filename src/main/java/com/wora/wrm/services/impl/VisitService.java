@@ -17,9 +17,12 @@ import com.wora.wrm.services.interfaces.IVisitService;
 import com.wora.wrm.services.interfaces.IVisitorService;
 import com.wora.wrm.services.interfaces.IWaitingRoomService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.print.Pageable;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -85,8 +88,9 @@ public class VisitService implements IVisitService {
     }
 
     @Override
-    public List<VisitDto> findAll(){
-        return visitRepository.findAll().stream()
+    public List<VisitDto> findAll(int page, int size){
+        PageRequest pageable = PageRequest.of(page, size);
+        return visitRepository.findAll(pageable).stream()
                 .map(visitMapper::toDto)
                 .toList();
     }

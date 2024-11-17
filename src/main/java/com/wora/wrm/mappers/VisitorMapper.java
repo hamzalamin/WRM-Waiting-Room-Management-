@@ -13,5 +13,4 @@ public interface VisitorMapper extends GenericMapper<Visitor, VisitorDto> {
     Visitor toEntity(VisitorDto visitorDto);
     Visitor toEntity(CreateVisitorDto createVisitorDto);
     Visitor toEntity(UpdateVisitorDto updateVisitorDto);
-
 }

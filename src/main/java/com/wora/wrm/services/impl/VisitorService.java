@@ -9,8 +9,12 @@ import com.wora.wrm.models.entities.Visitor;
 import com.wora.wrm.repositories.VisitorRepository;
 import com.wora.wrm.services.interfaces.IVisitorService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 @Service
@@ -47,8 +51,9 @@ public class VisitorService implements IVisitorService {
     }
 
     @Override
-    public List<VisitorDto> findAll() {
-        return visitorRepository.findAll().stream()
+    public List<VisitorDto> findAll(int page, int size) {
+        PageRequest pageable = PageRequest.of(page, size);
+        return visitorRepository.findAll(pageable).stream()
                 .map(visitorMapper::toDto)
                 .toList();
     }
